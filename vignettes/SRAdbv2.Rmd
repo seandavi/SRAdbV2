@@ -1,0 +1,75 @@
+---
+title: "Using the SRAdbV2 Package"
+author: "Sean Davis"
+#package: SRAdbV2
+output: BiocStyle::html_document
+vignette: |
+  %\VignetteIndexEntry{Using the SRAdbV2 Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}  
+---
+
+# Just getting started
+
+```{r}
+library(reticulate)
+```
+
+As a first step, make sure that the correct version of python or
+python environment is selected.
+
+```{r}
+use_condaenv("py36")
+```
+
+Load the [elasticsearch-dsl] python package. It must be installed
+first (perhaps using pip).
+
+```{r}
+elasticdsl = import("elasticsearch_dsl")
+```
+
+# Create connection
+
+```{r}
+con = elasticdsl$connections$create_connection(hosts="https://reader:JggBxPpn8RrNHqSv@c0b1083b4d78495d3b29a72d74fcea41.us-east-1.aws.found.io:9243/")
+```
+
+# Searching
+
+```{r}
+search = elasticdsl$Search
+```
+- How many records are in the `sra` database (called an `index`)?
+
+```{r}
+search(index='sra')$count()
+```
+
+## How many records contain "SRPK1" in the description?
+
+```{r}
+search(index='sra')$query("match", description="SRPK1")$count()
+```
+
+## What is the record?
+
+Results of `execute` come back as a list, so this just pulls out the
+interesting parts.
+
+```{r}
+str(search(index='sra')$query("match", description="SRPK1")$execute()$hits$hits)
+```
+
+For further examples,
+see
+[the elasticsearch-dsl Search documentation](https://elasticsearch-dsl.readthedocs.io/en/latest/search_dsl.html)
+
+
+[elasticsearch-dsl]: https://elasticsearch-dsl.readthedocs.io/
+
+# SessionInfo
+
+```{r}
+sessionInfo()
+```
