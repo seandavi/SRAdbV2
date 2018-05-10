@@ -15,8 +15,10 @@
 }
 
 
+#' @importFrom httr build_url
 get_url = function(path) httr::build_url(list('https://xdolg4kkf3.execute-api.us-east-1.amazonaws.com/dev', path))
 
+#' @importFrom httr parse_url build_url accept_json add_headers content_type
 .sra_get_search_function = function(path, q='*', from = 0, size = 10, fields = NULL, .headers=NULL) {
   url = httr::parse_url(file.path("https://xdolg4kkf3.execute-api.us-east-1.amazonaws.com/dev", path))
   url$query = list(q=q, from=from, size=size)
@@ -30,48 +32,47 @@ get_url = function(path) httr::build_url(list('https://xdolg4kkf3.execute-api.us
   return(.search_handler(result))
 }
 
+
+#' search SRA metadata
+#' 
+#' @param q a lucene query string
+#' @param from integer(1) for paging results (unit is the number of records, not number of pages)
+#' @param size integer(1) for the number of results to return per page
+#' @param fields character() vector with fields to return. The default \code{NULL}
+#'     will return all available fields
+#'
+#' @return a \code{tibble} of records, with some columns potentially 
+#'     containing a list.
+#'
+#' @examples 
+#' sra_run_search()
+#'
+#' @export
 sra_experiment_search = function(q = '*', from = 0, size = 10, fields = NULL) {
   .sra_get_search_function(path = '/sra/experiment/search', q, from, size, fields)
 }
 
+#' @describeIn sra_experiment_search search runs
+#' @export
 sra_run_search = function(q = '*', from = 0, size = 10, fields = NULL) {
   .sra_get_search_function(path = '/sra/run/search', q, from, size, fields)
 }
 
+#' @describeIn sra_experiment_search search studies
+#' @export
 sra_study_search = function(q = '*', from = 0, size = 10, fields = NULL) {
   .sra_get_search_function(path = '/sra/study/search', q, from, size, fields)
 }
 
+
+#' @describeIn sra_experiment_search search studies
+#' @export
 sra_sample_search = function(q = '*', from = 0, size = 10, fields = NULL) {
   .sra_get_search_function(path = '/sra/sample/search', q, from, size, fields)
 }
 
+#' @describeIn sra_experiment_search search studies
+#' @export
 sra_full_search = function(q = '*', from = 0, size = 10, fields = NULL) {
   .sra_get_search_function(path = '/sra/full/search', q, from, size, fields)
-}
-
-
-#' Initialize an SRAdb API client
-#'
-#' @importFrom rapiclient get_api get_operations
-#'   
-#' @return 
-#' an client
-#' 
-#' @examples 
-#' client = sradb_get_client()
-#' # self-describing
-#' names(client)
-#' # self-documenting
-#' client[[1]]
-#' 
-#' @export
-sradb_get_client = function() {
-  library(rapiclient)
-  sra_api = get_api("https://xdolg4kkf3.execute-api.us-east-1.amazonaws.com/dev/swagger.json")
-  paths = names(sra_api$paths)
-  df_paths = Filter(function(x) grepl('search',x), paths)
-  client = lapply(df_paths, function(path) get_operations(sra_api, path = path,
-                                                          handle_response = .search_handler)[[1]])
-  return(client)
 }
