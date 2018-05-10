@@ -15,12 +15,11 @@ vignette: |
 library(SRAdbV2)
 ```
 
-# Operations
+# Search
 
 ```{r}
-client = sradb_get_client()
-```
-
-```{r}
-results = client$get_sra_experiment_search(q='cancer')
+sra_experiment_search()
+sra_run_search()
+sra_full_search()
+sra_study_search(q='cancer')
 ```
