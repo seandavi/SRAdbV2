@@ -16,11 +16,11 @@
 
 
 #' @importFrom httr build_url
-get_url = function(path) httr::build_url(list('https://xdolg4kkf3.execute-api.us-east-1.amazonaws.com/dev', path))
+get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci.org', path))
 
 #' @importFrom httr parse_url build_url accept_json add_headers content_type
 .sra_get_search_function = function(path, q='*', from = 0, size = 10, fields = NULL, .headers=NULL) {
-  url = httr::parse_url(file.path("https://xdolg4kkf3.execute-api.us-east-1.amazonaws.com/dev", path))
+  url = httr::parse_url(file.path("https://api-omicidx.cancerdatasci.org", path))
   url$query = list(q=q, from=from, size=size)
   if(!is.null(fields)) {
     url$query$fields = fields
@@ -80,3 +80,4 @@ sra_sample_search = function(q = '*', from = 0, size = 10, fields = NULL) {
 sra_full_search = function(q = '*', from = 0, size = 10, fields = NULL) {
   .sra_get_search_function(path = '/sra/full/search', q, from, size, fields)
 }
+
