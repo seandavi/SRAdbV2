@@ -29,7 +29,11 @@ get_url = function(path) httr::build_url(list('https://xdolg4kkf3.execute-api.us
   message(url)
   result <- httr::GET(url, httr::content_type("application/json"),
                       httr::accept_json(), httr::add_headers(.headers = .headers))
-  return(.search_handler(result))
+  res = .search_handler(result)
+  attr(res,'from') = from
+  attr(res,'q') = q
+  class(res) = c('sra_search_result',class(res))
+  return(res)
 }
 
 
