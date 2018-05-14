@@ -20,10 +20,10 @@ get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci
 
 #' @importFrom httr parse_url build_url accept_json add_headers content_type
 .sra_get_search_function = function(path, q='*', from = 0, size = 10, fields = NULL, .headers=NULL) {
-  url = httr::parse_url(file.path("https://api-omicidx.cancerdatasci.org", path))
+  url = httr::parse_url(paste0("https://api-omicidx.cancerdatasci.org/sra/1.0", path))
   url$query = list(q=q, from=from, size=size)
   if(!is.null(fields)) {
-    url$query = c(url$query, setNames(as.list(fields),rep("fields",length(fields))))
+    url$query$fields = paste(fields,collapse=',')
   }
   url = httr::build_url(url)
   message(url)
@@ -53,31 +53,31 @@ get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci
 #'
 #' @export
 sra_experiment_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/sra/experiment/search', q, from, size, fields)
+  .sra_get_search_function(path = '/search/experiment', q, from, size, fields)
 }
 
 #' @describeIn sra_experiment_search search runs
 #' @export
 sra_run_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/sra/run/search', q, from, size, fields)
+  .sra_get_search_function(path = '/search/run', q, from, size, fields)
 }
 
 #' @describeIn sra_experiment_search search studies
 #' @export
 sra_study_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/sra/study/search', q, from, size, fields)
+  .sra_get_search_function(path = '/search/study', q, from, size, fields)
 }
 
 
 #' @describeIn sra_experiment_search search studies
 #' @export
 sra_sample_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/sra/sample/search', q, from, size, fields)
+  .sra_get_search_function(path = '/search/sample', q, from, size, fields)
 }
 
 #' @describeIn sra_experiment_search search studies
 #' @export
 sra_full_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/sra/full/search', q, from, size, fields)
+  .sra_get_search_function(path = '/search/full', q, from, size, fields)
 }
 
