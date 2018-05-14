@@ -23,7 +23,7 @@ get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci
   url = httr::parse_url(file.path("https://api-omicidx.cancerdatasci.org", path))
   url$query = list(q=q, from=from, size=size)
   if(!is.null(fields)) {
-    url$query$fields = fields
+    url$query = c(url$query, setNames(as.list(fields),rep("fields",length(fields))))
   }
   url = httr::build_url(url)
   message(url)
