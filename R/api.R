@@ -81,3 +81,41 @@ sra_full_search = function(q = '*', from = 0, size = 10, fields = NULL) {
   .sra_get_search_function(path = '/search/full', q, from, size, fields)
 }
 
+#' Browse the API interactively
+#' 
+#' The SRA API is a swagger 2.0 compliant API and has a simple
+#' user interface for experimenting with the API itself. The
+#' API could be used from any language or even command-line
+#' utilities for accessing web resources. 
+#' 
+#' @param version character(1), the API version
+#' 
+#' @example 
+#' sra_browse_API()
+#' 
+#' @export
+sra_browse_API = function(version = "1.0"){
+  stopifnot(is.character(version) & length(version)==1)
+  browseURL(sprintf('https://api-omicidx.cancerdatasci.org/sra/%s/ui', version))
+}
+
+
+#' URL for the swagger json API description
+#' 
+#' The SRA API is a swagger 2.0 compliant API. As such, it is
+#' described by a json file that can be used to build additional
+#' clients in many other languages. See \url{https://swagger.io/}
+#' for more details. 
+#' 
+#' @param version character(1), the API version
+#' 
+#' @return character(1), the URL of the \code{swagger.json} file.
+#' 
+#' @example 
+#' sra_get_swagger_json_url()
+#' 
+#' @export
+sra_get_swagger_json_url = function(version = "1.0") {
+  stopifnot(is.character(version) & length(version)==1)
+  return(sprintf('https://api-omicidx.cancerdatasci.org/sra/%s/swagger.json', version))
+}
