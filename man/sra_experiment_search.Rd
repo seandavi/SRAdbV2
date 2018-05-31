@@ -8,20 +8,20 @@
 \alias{sra_full_search}
 \title{search SRA metadata}
 \usage{
-sra_experiment_search(q = "*", from = 0, size = 10, fields = NULL)
+sra_experiment_search(q = "*", start = 0, size = 10, fields = NULL)
 
-sra_run_search(q = "*", from = 0, size = 10, fields = NULL)
+sra_run_search(q = "*", start = 0, size = 10, fields = NULL)
 
-sra_study_search(q = "*", from = 0, size = 10, fields = NULL)
+sra_study_search(q = "*", start = 0, size = 10, fields = NULL)
 
-sra_sample_search(q = "*", from = 0, size = 10, fields = NULL)
+sra_sample_search(q = "*", start = 0, size = 10, fields = NULL)
 
-sra_full_search(q = "*", from = 0, size = 10, fields = NULL)
+sra_full_search(q = "*", start = 0, size = 10, fields = NULL)
 }
 \arguments{
 \item{q}{a lucene query string}
 
-\item{from}{integer(1) for paging results (unit is the number of records, not number of pages)}
+\item{start}{integer(1) for paging results (unit is the number of records, not number of pages)}
 
 \item{size}{integer(1) for the number of results to return per page}
 
