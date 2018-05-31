@@ -19,9 +19,9 @@
 get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci.org', path))
 
 #' @importFrom httr parse_url build_url accept_json add_headers content_type
-.sra_get_search_function = function(path, q='*', from = 0, size = 10, fields = NULL, .headers=NULL) {
+.sra_get_search_function = function(path, q='*', start = 0, size = 10, fields = NULL, .headers=NULL) {
   url = httr::parse_url(paste0("https://api-omicidx.cancerdatasci.org/sra/1.0", path))
-  url$query = list(q=q, from=from, size=size)
+  url$query = list(q=q, start=start, size=size)
   if(!is.null(fields)) {
     url$query$fields = paste(fields,collapse=',')
   }
@@ -30,7 +30,7 @@ get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci
   result <- httr::GET(url, httr::content_type("application/json"),
                       httr::accept_json(), httr::add_headers(.headers = .headers))
   res = .search_handler(result)
-  attr(res,'from') = from
+  attr(res,'start') = start
   attr(res,'q') = q
   class(res) = c('sra_search_result',class(res))
   return(res)
@@ -40,7 +40,7 @@ get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci
 #' search SRA metadata
 #' 
 #' @param q a lucene query string
-#' @param from integer(1) for paging results (unit is the number of records, not number of pages)
+#' @param start integer(1) for paging results (unit is the number of records, not number of pages)
 #' @param size integer(1) for the number of results to return per page
 #' @param fields character() vector with fields to return. The default \code{NULL}
 #'     will return all available fields
@@ -52,33 +52,33 @@ get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci
 #' sra_run_search()
 #'
 #' @export
-sra_experiment_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/experiment', q, from, size, fields)
+sra_experiment_search = function(q = '*', start = 0, size = 10, fields = NULL) {
+  .sra_get_search_function(path = '/search/experiment', q, start, size, fields)
 }
 
 #' @describeIn sra_experiment_search search runs
 #' @export
-sra_run_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/run', q, from, size, fields)
+sra_run_search = function(q = '*', start = 0, size = 10, fields = NULL) {
+  .sra_get_search_function(path = '/search/run', q, start, size, fields)
 }
 
 #' @describeIn sra_experiment_search search studies
 #' @export
-sra_study_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/study', q, from, size, fields)
+sra_study_search = function(q = '*', start = 0, size = 10, fields = NULL) {
+  .sra_get_search_function(path = '/search/study', q, start, size, fields)
 }
 
 
 #' @describeIn sra_experiment_search search studies
 #' @export
-sra_sample_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/sample', q, from, size, fields)
+sra_sample_search = function(q = '*', start = 0, size = 10, fields = NULL) {
+  .sra_get_search_function(path = '/search/sample', q, start, size, fields)
 }
 
 #' @describeIn sra_experiment_search search studies
 #' @export
-sra_full_search = function(q = '*', from = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/full', q, from, size, fields)
+sra_full_search = function(q = '*', start = 0, size = 10, fields = NULL) {
+  .sra_get_search_function(path = '/search/full', q, start, size, fields)
 }
 
 #' Browse the API interactively
