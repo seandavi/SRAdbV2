@@ -7,7 +7,8 @@ Depends: R (>= 3.5.0)
 Imports: tibble,
     rapiclient,
     jsonlite,
-    httr
+    httr,
+    lubridate
 License: MIT
 Encoding: UTF-8
 LazyData: true
