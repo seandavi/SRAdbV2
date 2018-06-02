@@ -37,7 +37,6 @@ attr(res,'count')
 Using `dplyr::bind_rows()` is the recommended approach for binding individual
 calls to the search. *The requirement to manually loop over results will likely
 be replaced by built-in functionality.*
-=======
 
 
 ```{r}
