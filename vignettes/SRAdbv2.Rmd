@@ -22,11 +22,24 @@ biocLite('seandavi/SRAdbV2')
 library(SRAdbV2)
 ```
 
+# Search examples
 
-# Search
+The search capabilities below all return `tibble`s. The approach for getting large
+result sets is to loop over results in blocks of size `size`. The result of a 
+search contains an attribute, `count`, that gives the total number of records. 
 
 ```{r}
-sra_experiment_search()
+res = sra_experiment_search()
+# total results
+attr(res,'count')
+```
+
+Using `dplyr::bind_rows()` is the recommended approach for binding individual
+calls to the search. *The requirement to manually loop over results will likely
+be replaced by built-in functionality.*
+
+
+```{r}
 sra_run_search()
 sra_full_search()
 sra_study_search(q='cancer')
