@@ -18,3 +18,7 @@ described by a json file that can be used to build additional
 clients in many other languages. See \url{https://swagger.io/}
 for more details.
 }
+\examples{
+sra_get_swagger_json_url()
+
+}

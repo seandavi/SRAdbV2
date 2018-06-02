@@ -15,3 +15,7 @@ user interface for experimenting with the API itself. The
 API could be used from any language or even command-line
 utilities for accessing web resources.
 }
+\examples{
+sra_browse_API()
+
+}

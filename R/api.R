@@ -90,7 +90,7 @@ sra_full_search = function(q = '*', start = 0, size = 10, fields = NULL) {
 #' 
 #' @param version character(1), the API version
 #' 
-#' @example 
+#' @examples 
 #' sra_browse_API()
 #' 
 #' @export
@@ -111,7 +111,7 @@ sra_browse_API = function(version = "1.0"){
 #' 
 #' @return character(1), the URL of the \code{swagger.json} file.
 #' 
-#' @example 
+#' @examples 
 #' sra_get_swagger_json_url()
 #' 
 #' @export
