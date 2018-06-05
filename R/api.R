@@ -27,7 +27,7 @@ get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci
     url$query$fields = paste(fields,collapse=',')
   }
   url = httr::build_url(url)
-  message(url)
+  if(getOption('omicidx.verbose',FALSE)) message(url)
   result <- httr::GET(url, httr::content_type("application/json"),
                       httr::accept_json(), httr::add_headers(.headers = .headers))
   res = .search_handler(result)
