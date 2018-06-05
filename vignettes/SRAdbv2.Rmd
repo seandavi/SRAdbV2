@@ -22,6 +22,17 @@ biocLite('seandavi/SRAdbV2')
 library(SRAdbV2)
 ```
 
+# Using the new API
+
+```{r}
+oidx = Omicidx$new()
+z = oidx$search('osteosarcoma',entity='experiment',size=500L)
+s = z$scroll()
+res = s$collate()
+head(res)
+```
+
+
 # Search examples
 
 The search capabilities below all return `tibble`s. The approach for getting large

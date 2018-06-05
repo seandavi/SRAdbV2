@@ -1,6 +1,3 @@
-setClassUnion('CharacterOrNull', c("character", "NULL"))
-
-
 #' Class Scroller
 #' 
 #' Scroll through large result sets
@@ -56,7 +53,7 @@ Scroller = R6Class(
       if(self$progress) {
         pb = progress::progress_bar$new(
           format = " downloading [:bar] :percent eta: :eta",
-          total = iters, clear = FALSE, width= 60)
+          total = iters, clear = FALSE, width= getOption('width'))
       }
       l = lapply(seq_len(iters), function(n) {
         if(self$progress) pb$tick()
@@ -68,42 +65,46 @@ Scroller = R6Class(
   )
 )
 
-OidxSearch = setRefClass("OidxSearch",
-            fields = list(q = 'CharacterOrNull',
-                          entity='character',
-                          size = "integer",
-                          start = "integer",
-                          return_fields = "CharacterOrNull"),
-            methods = list(
-              initialize = function(q='*', entity='full', size = 100L, start = 0L, return_fields=NULL) {
-                "Initialize a new OidxSearch object."
-                entity <<- entity
-                q      <<- q
-                size   <<- size
-                start  <<- start
-                return_fields <<- return_fields
-              },
-              count = function() {
-                "Return a simple count of records that meet the search criteria"
-                path = paste0('/search/',.self$entity)
-                return(attr(.sra_get_search_function(path, q = .self$q, size = 1, start = 0, fields=return_fields),"count"))
-              },
-              results = function() {
-                path = paste0('/search/',entity)
-                return(.sra_get_search_function(path, q = q, size = size, 
-                                         start = start, fields=return_fields))
-              },
-              
-              scroll = function() {
-                return(Scroller$new(.self$copy()))
-              }
-            ))
-
-
-Omicidx = setRefClass("Omicidx", methods = list(
-  search = function(q='*', entity = 'full', start=0L, size=100L, return_fields = NULL) {
-    "Build a new search of the Omicidx API"
-    return(OidxSearch$new(q, entity, start = start, 
-                          size = size, return_fields = return_fields))
+#' @export
+Searcher = R6Class(
+  "Searcher", list(
+  q = NULL,
+  entity= NULL,
+  size = NULL,
+  start = NULL,
+  return_fields = NULL,
+  initialize = function(q='*', entity='full', size = 100L, start = 0L, return_fields=NULL) {
+    "Initialize a new OidxSearch object."
+    self$entity <- entity
+    self$q      <- q
+    self$size   <- size
+    self$start  <- start
+    self$return_fields <- return_fields
+  },
+  count = function() {
+    "Return a simple count of records that meet the search criteria"
+    path = paste0('/search/',self$entity)
+    return(attr(.sra_get_search_function(path, q = self$q, size = 1, 
+                                         start = 0, fields=self$return_fields),"count"))
+  },
+  results = function() {
+    path = paste0('/search/',self$entity)
+    return(.sra_get_search_function(path, q = self$q, size = self$size, 
+                                    start = self$start, fields=self$return_fields))
+  },
+  
+  scroll = function() {
+    return(Scroller$new(self$clone(deep=TRUE)))
   }
 ))
+
+#' @export
+Omicidx = R6Class(
+  "Omicidx", list(
+    search = function(q='*', entity = 'full', start=0L, size=100L, return_fields = NULL) {
+      "Build a new search of the Omicidx API"
+      return(Searcher$new(q, entity, start = start, 
+                            size = size, return_fields = return_fields))
+    }
+  )
+)
