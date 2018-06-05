@@ -28,6 +28,11 @@ library(SRAdbV2)
 oidx = Omicidx$new()
 z = oidx$search('osteosarcoma',entity='experiment',size=500L)
 s = z$scroll()
+# for VERY large result sets, this may take
+# quite a bit of time and/or memory. An
+# alternative is to use s$chunk() to retrieve
+# one batch of records at a time and process
+# incrementally.
 res = s$collate()
 head(res)
 ```

@@ -52,7 +52,7 @@ Scroller = R6Class(
       iters = ceiling(count/size)
       if(self$progress) {
         pb = progress::progress_bar$new(
-          format = " downloading [:bar] :percent eta: :eta",
+          format = " working: ( :spin ) [:bar] :percent eta: :eta",
           total = iters, clear = FALSE, width= getOption('width'))
       }
       l = lapply(seq_len(iters), function(n) {
