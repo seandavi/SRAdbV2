@@ -26,7 +26,13 @@ library(SRAdbV2)
 
 ```{r}
 oidx = Omicidx$new()
-z = oidx$search('osteosarcoma',entity='experiment',size=500L)
+oidx = Omicidx$new()
+query=paste(
+  paste0('sample_taxon_id:', 10116),
+  'AND experiment_library_strategy:"rna seq"',
+  'AND experiment_library_source:transcriptomic',
+  'AND experiment_platform:illumina')
+z = oidx$search(q=query,entity='full',size=500L)
 s = z$scroll()
 # for VERY large result sets, this may take
 # quite a bit of time and/or memory. An
