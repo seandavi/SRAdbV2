@@ -12,22 +12,21 @@ setClassUnion('CharacterOrNull', c("character", "NULL"))
 #' 
 #' 
 #' @export
-Scroller = setRefClass(
+Scroller = R6Class(
   "Scroller",
-  fields = list(
-    scroll_id = "CharacterOrNull",
-    scroll    = "character",
-    .last     = "logical",
-    search   = "OidxSearch",
-    progress  = "logical"
-  ),
-  methods = list(
+  list(
+    scroll_id = NULL,
+    scroll    = NULL,
+    .last     = NULL,
+    search    = NULL,
+    progress  = NULL,
     
     initialize = function(search) {
-      scroll_id <<- NULL
-      search <<- search
-      progress <<- interactive()
-      .last  <<- FALSE
+      self$scroll_id <- NULL
+      self$search <- search
+      self$progress <- interactive()
+      self$.last  <- FALSE
+      self$scroll = "1m"
     },
     
     has_next = function() {
@@ -35,33 +34,33 @@ Scroller = setRefClass(
     },
     
     chunk = function() {
-      if(is.null(scroll_id)) {
-        res = search$results()
+      if(is.null(self$scroll_id)) {
+        res = self$search$results()
       }
-      else if(!is.null(scroll_id)) {
-        res = .sra_scroll(scroll_id = scroll_id, scroll = scroll)
+      else if(!is.null(self$scroll_id)) {
+        res = .sra_scroll(scroll_id = self$scroll_id, scroll = self$scroll)
       }
-      scroll_id <<- attr(res, 'scroll_id')
+      self$scroll_id <- attr(res, 'scroll_id')
       if(nrow(res)==0) {
-        .last <<- TRUE
+        self$.last <- TRUE
         return(NULL)
       }
       return(res)
     },
     
     collate = function() {
-      scroll_id <<- NULL
-      count = search$count()
-      size  = search$size
+      self$scroll_id <- NULL
+      count = self$search$count()
+      size  = self$search$size
       iters = ceiling(count/size)
-      if(progress) {
+      if(self$progress) {
         pb = progress::progress_bar$new(
           format = " downloading [:bar] :percent eta: :eta",
           total = iters, clear = FALSE, width= 60)
       }
       l = lapply(seq_len(iters), function(n) {
-        if(progress) pb$tick()
-        return(.self$chunk())
+        if(self$progress) pb$tick()
+        return(self$chunk())
       })
       dplyr::bind_rows(l)
     }

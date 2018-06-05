@@ -3,7 +3,7 @@ Title: Interface to NCBI SRA Metadata
 Version: 0.1.2
 Authors@R: person("Sean", "Davis", email = "seandavi@gmail.com", role = c("aut", "cre"))
 Description: Interface to NCBI SRA Metadata
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.5.0), R6
 Imports: tibble,
     rapiclient,
     jsonlite,
