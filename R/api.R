@@ -11,6 +11,7 @@
                   colnames(res), value=TRUE)
   res[datecols] = lapply(res[datecols], function(d) {lubridate::as_datetime(d/1000)})
   attr(res, 'count') = tmp$hits$total
+  attr(res, 'scroll_id') = tmp$`_scroll_id`
   return(res)
 }
 
@@ -33,6 +34,17 @@ get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci
   attr(res,'start') = start
   attr(res,'q') = q
   class(res) = c('sra_search_result',class(res))
+  return(res)
+}
+
+.sra_scroll = function(scroll_id, scroll='1m') {
+  path = '/scroll'
+  url = httr::parse_url(paste0("https://api-omicidx.cancerdatasci.org/sra/1.0", path))
+  url$query = list(scroll_id = scroll_id, scroll = scroll)
+  url = httr::build_url(url)
+  result <- httr::GET(url, httr::content_type("application/json"),
+                      httr::accept_json())
+  res = .search_handler(result)
   return(res)
 }
 
