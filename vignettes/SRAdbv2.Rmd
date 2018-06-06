@@ -26,7 +26,6 @@ library(SRAdbV2)
 
 ```{r}
 oidx = Omicidx$new()
-oidx = Omicidx$new()
 query=paste(
   paste0('sample_taxon_id:', 10116),
   'AND experiment_library_strategy:"rna seq"',
