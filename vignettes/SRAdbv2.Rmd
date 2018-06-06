@@ -22,7 +22,7 @@ biocLite('seandavi/SRAdbV2')
 library(SRAdbV2)
 ```
 
-# Using the new API
+# Using the  NEW interface
 
 ```{r}
 oidx = Omicidx$new()
@@ -44,7 +44,7 @@ head(res)
 ```
 
 
-# Search examples
+# The OLD interface
 
 The search capabilities below all return `tibble`s. The approach for getting large
 result sets is to loop over results in blocks of size `size`. The result of a 
