@@ -42,6 +42,23 @@ res = s$collate()
 head(res)
 ```
 
+And return just the "top" matching results (by elasticsearch ranking):
+
+```{r}
+# 500 results
+> res = z$results()
+> dim(res)
+[1] 500  88
+> attr(res,'count')
+[1] 277697
+# or just 200 results
+> z$size=200
+> res = z$results()
+> dim(res)
+[1] 200  88
+> attr(res,'count')
+[1] 277697
+```
 
 # The OLD interface
 
