@@ -63,49 +63,6 @@ get_url = function(path) httr::build_url(list(.base_url, path))
 }
 
 
-#' search SRA metadata
-#' 
-#' @param q a lucene query string
-#' @param start integer(1) for paging results (unit is the number of records, not number of pages)
-#' @param size integer(1) for the number of results to return per page
-#' @param fields character() vector with fields to return. The default \code{NULL}
-#'     will return all available fields
-#'
-#' @return a \code{tibble} of records, with some columns potentially 
-#'     containing a list.
-#'
-#' @examples 
-#' sra_run_search()
-#'
-#' @export
-sra_experiment_search = function(q = '*', start = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/experiment', q, start, size, fields)
-}
-
-#' @describeIn sra_experiment_search search runs
-#' @export
-sra_run_search = function(q = '*', start = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/run', q, start, size, fields)
-}
-
-#' @describeIn sra_experiment_search search studies
-#' @export
-sra_study_search = function(q = '*', start = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/study', q, start, size, fields)
-}
-
-
-#' @describeIn sra_experiment_search search studies
-#' @export
-sra_sample_search = function(q = '*', start = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/sample', q, start, size, fields)
-}
-
-#' @describeIn sra_experiment_search search studies
-#' @export
-sra_full_search = function(q = '*', start = 0, size = 10, fields = NULL) {
-  .sra_get_search_function(path = '/search/full', q, start, size, fields)
-}
 
 #' Browse the API interactively
 #' 
@@ -145,14 +102,4 @@ sra_get_swagger_json_url = function(version = "1.0") {
   stopifnot(is.character(version) & length(version)==1)
   return(
     sprintf('https://api-omicidx.cancerdatasci.org/sra/%s/swagger.json', version))
-}
-
-#' mappings
-#' 
-#' @param entity one of the possible SRA entities (run, sample,
-#'     study, experiment, full)
-#'
-#' @export
-sra_get_mappings = function(entity = 'full') {
-  
 }
