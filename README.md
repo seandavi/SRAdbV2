@@ -1,3 +1,7 @@
+Documentation is currently hosted at:
+
+- https://seandavi.github.io/SRAdbV2/
+
 # The SRAdbV2 Package
 
 The Sequence Read Archive (SRA) is NIH's primary archive of
