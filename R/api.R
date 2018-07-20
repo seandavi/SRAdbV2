@@ -16,8 +16,22 @@
 }
 
 
+#' Get mapping from endpoint
+#' @importFrom jsonlite fromJSON
+#' @keywords internal
+.mapping_handler = function(entity='full') {
+    l = jsonlite::fromJSON(sprintf('https://api-omicidx.cancerdatasci.org/sra/1.0/mapping/%s',entity))
+    res = Filter(function(x) !is.null(x),lapply(l, '[[', 'type'))
+    res2 = Filter(is.null,lapply(l, '[[', 'type'))
+    res = c(res, sapply(names(res2), function(x) {
+        unlist(lapply(l[[x]]$properties, '[[', 'type'))
+    }))
+    return(res)
+}
+
+
 #' @importFrom httr build_url
-get_url = function(path) httr::build_url(list('https://api-omicidx.cancerdatasci.org', path))
+get_url = function(path) httr::build_url(list(.base_url, path))
 
 #' @importFrom httr parse_url build_url accept_json add_headers content_type
 .sra_get_search_function = function(path, q='*', start = 0, size = 10, fields = NULL, .headers=NULL) {
@@ -129,5 +143,16 @@ sra_browse_API = function(version = "1.0"){
 #' @export
 sra_get_swagger_json_url = function(version = "1.0") {
   stopifnot(is.character(version) & length(version)==1)
-  return(sprintf('https://api-omicidx.cancerdatasci.org/sra/%s/swagger.json', version))
+  return(
+    sprintf('https://api-omicidx.cancerdatasci.org/sra/%s/swagger.json', version))
+}
+
+#' mappings
+#' 
+#' @param entity one of the possible SRA entities (run, sample,
+#'     study, experiment, full)
+#'
+#' @export
+sra_get_mappings = function(entity = 'full') {
+  
 }
