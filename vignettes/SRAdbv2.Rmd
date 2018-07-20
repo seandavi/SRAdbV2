@@ -8,6 +8,7 @@ package: SRAdbV2
 output: 
   BiocStyle::html_document:
     toc_depth: 2
+  rmarkdown::markdown_document:
 vignette: |
   %\VignetteIndexEntry{Using the SRAdbV2 Package}
   %\VignetteEngine{knitr::rmarkdown}
