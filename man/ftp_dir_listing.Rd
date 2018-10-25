@@ -18,6 +18,6 @@ Note that this function must loop over the URLs,
 so it may be slow and inefficient.
 }
 \examples{
-ftp_dir_listing(accession2url(c('SRR000237','SRR000238')))
+ftp_dir_listing(accession2url(c('SRR000237','SRR000238', 'SRR925811')))
 
 }
