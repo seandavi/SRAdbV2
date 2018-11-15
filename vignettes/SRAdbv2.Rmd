@@ -69,11 +69,11 @@ string. See below for [Query syntax].
 
 ```{r}
 query=paste(
-  paste0('sample_taxon_id:', 10116),
-  'AND experiment_library_strategy:"rna seq"',
-  'AND experiment_library_source:transcriptomic',
-  'AND experiment_platform:illumina')
-z = oidx$search(q=query,entity='full',size=100L)
+  paste0('sample.taxon_id:', 10116),
+  'AND experiment.library_strategy:"rna seq"',
+  'AND experiment.library_source:transcriptomic',
+  'AND experiment.platform:illumina')
+z = oidx$search(q=query,entity='full',size=100L, return_fields='experiment_accession')
 ```
 
 The `entity` parameter is one of the SRA entity types available via the API. 
