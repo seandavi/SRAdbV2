@@ -1,3 +1,4 @@
+.df_columns = c('experiment', 'study', 'sample', 'run')
 #' @importFrom lubridate as_datetime
 #' @importFrom httr content
 #' @importFrom jsonlite fromJSON
@@ -5,8 +6,20 @@
 #' 
 #' @keywords internal
 .search_handler = function(response) {
-  tmp = jsonlite::fromJSON(httr::content(response, type='text', encoding='UTF-8'))
-  res = as_tibble(tmp$hits$hits$`_source`)
+    tmp = jsonlite::fromJSON(httr::content(response, type='text', encoding='UTF-8'))
+    df_tmp = tmp$hits$hits$`_source`
+    dfcols = df_tmp[,colnames(df_tmp) %in% .df_columns]
+    
+    dfcols = lapply(colnames(dfcols), function(dfname) {
+        current_df = dfcols[[dfname]]
+        colnames(current_df) = paste(dfname, colnames(current_df), sep=".")
+        return(current_df)
+    })
+
+    df_tmp = df_tmp[, ! (colnames(df_tmp) %in% .df_columns)]
+
+    res = as_tibble(cbind(do.call(cbind, dfcols), df_tmp))
+    
   datecols = grep(paste(c('Received', 'Published', "LastUpdate", "LastMetaUpdate"), collapse="|"), 
                   colnames(res), value=TRUE)
   res[datecols] = lapply(res[datecols], function(d) {lubridate::as_datetime(d/1000)})
