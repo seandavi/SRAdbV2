@@ -1,7 +1,7 @@
 Package: SRAdbV2
 Title: Interface to NCBI SRA Metadata
-Version: 0.7.0
-Date: 2018-10-25
+Version: 0.7.1
+Date: 2018-11-14
 Authors@R: person("Sean", "Davis", email = "seandavi@gmail.com", role = c("aut", "cre"))
 Description: Interface to NCBI SRA Metadata
 Depends: R (>= 3.5.0), R6
