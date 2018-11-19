@@ -73,7 +73,7 @@ query=paste(
   'AND experiment.library_strategy:"rna seq"',
   'AND experiment.library_source:transcriptomic',
   'AND experiment.platform:illumina')
-z = oidx$search(q=query,entity='full',size=100L, return_fields='experiment_accession')
+z = oidx$search(q=query,entity='full',size=100L)
 ```
 
 The `entity` parameter is one of the SRA entity types available via the API. 
