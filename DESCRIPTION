@@ -14,7 +14,8 @@ License: MIT
 VignetteBuilder: knitr
 Suggests: BiocStyle,
     knitr,
-    rmarkdown
+    rmarkdown,
+    dplyr
 BugReports: https://github.com/seandavi/SRAdbV2/issues/new
 Encoding: UTF-8
 LazyData: true
