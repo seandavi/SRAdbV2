@@ -1,3 +1,8 @@
+# READ THIS
+
+This project is a work-in-progress. Both the web-based API and R package
+are being actively developed and may change. 
+
 Documentation is currently hosted at:
 
 - https://seandavi.github.io/SRAdbV2/
