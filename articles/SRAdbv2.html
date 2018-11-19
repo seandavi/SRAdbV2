@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SRAdbV2</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.7.2</span>
       </span>
     </div>
 
@@ -132,10 +132,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <a href="#queries" class="anchor"></a>Queries</h2>
 <p>Once an instance of <code>Omicidx</code> is created (here we will call the instance <code>oidx</code>), search capabilities are available via <code>oidx$search()</code>. The one interesting parameter is the <code>q</code> parameter. This parameter takes a string formatted as a Lucene query string. See below for <a href="#query-syntax">Query syntax</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">query=<span class="kw">paste</span>(</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw">paste0</span>(<span class="st">'sample_taxon_id:'</span>, <span class="dv">10116</span>),</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="st">'AND experiment_library_strategy:"rna seq"'</span>,</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="st">'AND experiment_library_source:transcriptomic'</span>,</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="st">'AND experiment_platform:illumina'</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw">paste0</span>(<span class="st">'sample.taxon_id:'</span>, <span class="dv">10116</span>),</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="st">'AND experiment.library_strategy:"rna seq"'</span>,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="st">'AND experiment.library_source:transcriptomic'</span>,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="st">'AND experiment.platform:illumina'</span>)</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6">z =<span class="st"> </span>oidx<span class="op">$</span><span class="kw">search</span>(<span class="dt">q=</span>query,<span class="dt">entity=</span><span class="st">'full'</span>,<span class="dt">size=</span>100L)</a></code></pre></div>
 <p>The <code>entity</code> parameter is one of the SRA entity types available via the API. The <code>size</code> parameter is the number of records that will be returned in each “chunk”.</p>
 </div>
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##     scroll: 1m
 ##     scroll_id: NULL
 ##     search: Searcher, R6</code></pre>
-<p>Methods such as <code>s$count</code> allow introspection into the available number of results, in this case, 8886 records.</p>
+<p>Methods such as <code>s$count</code> allow introspection into the available number of results, in this case, 10221 records.</p>
 <p>The <code>Scroller</code> provides two different approaches to accessing the resulting data.</p>
 <div id="collating-entire-result-sets" class="section level3">
 <h3 class="hasAnchor">
@@ -176,51 +176,49 @@ document.addEventListener("DOMContentLoaded", function() {
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co"># incrementally.</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6">res =<span class="st"> </span>s<span class="op">$</span><span class="kw">collate</span>(<span class="dt">limit =</span> <span class="dv">1000</span>)</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="kw">head</span>(res)</a></code></pre></div>
-<pre><code>## # A tibble: 6 x 85
-##   experiment_Insdc experiment_LastMetaUpdate experiment_LastUpdate
-##   &lt;lgl&gt;            &lt;dttm&gt;                    &lt;dttm&gt;               
-## 1 TRUE             2018-04-10 11:28:04       2018-04-10 11:52:20  
-## 2 TRUE             2018-05-06 06:12:59       2018-05-06 06:42:38  
-## 3 TRUE             2013-08-28 07:50:02       2014-04-13 06:08:21  
-## 4 TRUE             2018-04-10 11:28:00       2018-04-10 11:34:38  
-## 5 TRUE             2016-12-07 17:16:11       2017-06-21 23:05:24  
-## 6 TRUE             2016-10-21 15:03:02       2016-10-22 13:55:27  
-## # ... with 82 more variables: experiment_Published &lt;dttm&gt;,
-## #   experiment_Received &lt;dttm&gt;, experiment_Status &lt;chr&gt;,
-## #   experiment_accession &lt;chr&gt;, experiment_alias &lt;chr&gt;,
-## #   experiment_center_name &lt;chr&gt;, experiment_identifiers &lt;list&gt;,
-## #   experiment_instrument_model &lt;chr&gt;,
-## #   experiment_library_construction_protocol &lt;chr&gt;,
-## #   experiment_library_layout &lt;chr&gt;, experiment_library_name &lt;chr&gt;,
-## #   experiment_library_selection &lt;chr&gt;, experiment_library_source &lt;chr&gt;,
-## #   experiment_library_strategy &lt;chr&gt;, experiment_platform &lt;chr&gt;,
-## #   experiment_title &lt;chr&gt;, run_FileDate &lt;dbl&gt;, run_FileMd5 &lt;chr&gt;,
-## #   run_FileSize &lt;int&gt;, run_Insdc &lt;lgl&gt;, run_LastMetaUpdate &lt;dttm&gt;,
-## #   run_LastUpdate &lt;dttm&gt;, run_Published &lt;dttm&gt;, run_Received &lt;dttm&gt;,
-## #   run_Status &lt;chr&gt;, run_accession &lt;chr&gt;, run_alias &lt;chr&gt;,
-## #   run_attributes &lt;list&gt;, run_bases &lt;dbl&gt;, run_center_name &lt;chr&gt;,
-## #   run_identifiers &lt;list&gt;, run_nreads &lt;int&gt;, run_reads &lt;list&gt;,
-## #   run_spot_length &lt;int&gt;, run_spots &lt;int&gt;, sample_BioSample &lt;chr&gt;,
-## #   sample_Insdc &lt;lgl&gt;, sample_LastMetaUpdate &lt;dttm&gt;,
-## #   sample_LastUpdate &lt;dttm&gt;, sample_Published &lt;dttm&gt;,
-## #   sample_Received &lt;dttm&gt;, sample_Status &lt;chr&gt;, sample_accession &lt;chr&gt;,
-## #   sample_alias &lt;chr&gt;, sample_attributes &lt;list&gt;,
-## #   sample_center_name &lt;chr&gt;, sample_identifiers &lt;list&gt;,
-## #   sample_organism &lt;chr&gt;, sample_taxon_id &lt;int&gt;, sample_title &lt;chr&gt;,
-## #   study_BioProject &lt;chr&gt;, study_Insdc &lt;lgl&gt;,
-## #   study_LastMetaUpdate &lt;dttm&gt;, study_LastUpdate &lt;dttm&gt;,
-## #   study_Published &lt;dttm&gt;, study_Received &lt;dttm&gt;, study_Status &lt;chr&gt;,
-## #   study_abstract &lt;chr&gt;, study_accession &lt;chr&gt;, study_alias &lt;chr&gt;,
-## #   study_attributes &lt;list&gt;, study_center_name &lt;chr&gt;,
-## #   study_description &lt;chr&gt;, study_identifiers &lt;list&gt;, study_title &lt;chr&gt;,
-## #   study_type &lt;chr&gt;, experiment_attributes &lt;list&gt;,
-## #   experiment_broker_name &lt;chr&gt;, experiment_design &lt;chr&gt;,
-## #   run_broker_name &lt;chr&gt;, run_center &lt;chr&gt;, sample_broker_name &lt;chr&gt;,
-## #   sample_description &lt;chr&gt;, study_broker_name &lt;chr&gt;,
-## #   run_file_addons &lt;list&gt;, experiment_library_layout_length &lt;dbl&gt;,
-## #   experiment_library_layout_sdev &lt;chr&gt;, sample_xrefs &lt;list&gt;,
-## #   experiment_xrefs &lt;list&gt;, sample_GEO &lt;chr&gt;, study_GEO &lt;chr&gt;,
-## #   study_xrefs &lt;list&gt;</code></pre>
+<pre><code>## # A tibble: 6 x 83
+##   experiment.Insdc experiment.LastMet… experiment.LastUpd…
+##   &lt;lgl&gt;            &lt;dttm&gt;              &lt;dttm&gt;             
+## 1 TRUE             2013-09-23 16:45:14 2013-09-23 16:45:14
+## 2 TRUE             2013-09-23 16:45:14 2013-09-23 16:45:14
+## 3 TRUE             2017-09-24 06:21:35 2017-09-28 08:48:29
+## 4 TRUE             2017-09-24 06:21:34 2017-09-28 08:43:12
+## 5 TRUE             2017-09-24 06:21:37 2017-09-28 08:55:15
+## 6 TRUE             2017-09-24 06:21:36 2017-09-28 08:50:14
+## # ... with 80 more variables: experiment.Published &lt;dttm&gt;,
+## #   experiment.Received &lt;dttm&gt;, experiment.Status &lt;chr&gt;,
+## #   experiment.accession &lt;chr&gt;, experiment.alias &lt;chr&gt;,
+## #   experiment.attributes &lt;list&gt;, experiment.center_name &lt;chr&gt;,
+## #   experiment.experiment_accession &lt;chr&gt;, experiment.identifiers &lt;list&gt;,
+## #   experiment.instrument_model &lt;chr&gt;, experiment.library_layout &lt;chr&gt;,
+## #   experiment.library_name &lt;chr&gt;, experiment.library_selection &lt;chr&gt;,
+## #   experiment.library_source &lt;chr&gt;, experiment.library_strategy &lt;chr&gt;,
+## #   experiment.platform &lt;chr&gt;, experiment.sample_accession &lt;chr&gt;,
+## #   experiment.study_accession &lt;chr&gt;, experiment.title &lt;chr&gt;,
+## #   experiment.xrefs &lt;list&gt;, experiment.broker_name &lt;chr&gt;,
+## #   experiment.design &lt;chr&gt;,
+## #   experiment.library_construction_protocol &lt;chr&gt;,
+## #   experiment.library_layout_length &lt;dbl&gt;,
+## #   experiment.library_layout_sdev &lt;chr&gt;, sample.BioSample &lt;chr&gt;,
+## #   sample.GEO &lt;chr&gt;, sample.Insdc &lt;lgl&gt;, sample.LastMetaUpdate &lt;dttm&gt;,
+## #   sample.LastUpdate &lt;dttm&gt;, sample.Published &lt;dttm&gt;,
+## #   sample.Received &lt;dttm&gt;, sample.Status &lt;chr&gt;, sample.accession &lt;chr&gt;,
+## #   sample.alias &lt;chr&gt;, sample.attributes &lt;list&gt;,
+## #   sample.center_name &lt;chr&gt;, sample.identifiers &lt;list&gt;,
+## #   sample.organism &lt;chr&gt;, sample.taxon_id &lt;int&gt;, sample.title &lt;chr&gt;,
+## #   sample.xrefs &lt;list&gt;, sample.description &lt;chr&gt;, study.BioProject &lt;chr&gt;,
+## #   study.GEO &lt;chr&gt;, study.Insdc &lt;lgl&gt;, study.LastMetaUpdate &lt;dttm&gt;,
+## #   study.LastUpdate &lt;dttm&gt;, study.Published &lt;dttm&gt;,
+## #   study.Received &lt;dttm&gt;, study.Status &lt;chr&gt;, study.abstract &lt;chr&gt;,
+## #   study.accession &lt;chr&gt;, study.alias &lt;chr&gt;, study.center_name &lt;chr&gt;,
+## #   study.identifiers &lt;list&gt;, study.study_accession &lt;chr&gt;,
+## #   study.study_type &lt;chr&gt;, study.title &lt;chr&gt;, study.attributes &lt;list&gt;,
+## #   study.broker_name &lt;chr&gt;, study.description &lt;chr&gt;, study.xrefs &lt;list&gt;,
+## #   Insdc &lt;lgl&gt;, LastMetaUpdate &lt;dttm&gt;, LastUpdate &lt;dttm&gt;,
+## #   Published &lt;dttm&gt;, Received &lt;dttm&gt;, Status &lt;chr&gt;, accession &lt;chr&gt;,
+## #   alias &lt;chr&gt;, attributes &lt;list&gt;, center_name &lt;chr&gt;, identifiers &lt;list&gt;,
+## #   reads &lt;list&gt;, spot_length &lt;int&gt;, broker_name &lt;chr&gt;, run_center &lt;chr&gt;,
+## #   nreads &lt;int&gt;, sample.broker_name &lt;chr&gt;</code></pre>
 <p>Note that the scroller now reports that it has fetched (<code>s$fetched</code>) 1000 records.</p>
 <p>To reuse a <code>Scroller</code>, we must reset it first.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">s<span class="op">$</span><span class="kw">reset</span>()</a>
@@ -236,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##     reset: function () 
 ##     yield: function () 
 ##   Private:
-##     .count: 8886
+##     .count: 10221
 ##     .fetched: 0
 ##     .last: FALSE
 ##     progress: FALSE
@@ -392,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <h1 class="hasAnchor">
 <a href="#provenance" class="anchor"></a>Provenance</h1>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
-<pre><code>## R version 3.5.0 RC (2018-04-16 r74624)
+<pre><code>## R version 3.5.1 (2018-07-02)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
 ## Running under: macOS Sierra 10.12.6
 ## 
@@ -407,23 +405,24 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] SRAdbV2_0.5.0   R6_2.2.2        BiocStyle_2.7.9
+## [1] SRAdbV2_0.7.2   R6_2.3.0        BiocStyle_2.8.2
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.17       bindr_0.1.1        knitr_1.20        
-##  [4] xml2_1.2.0         magrittr_1.5       roxygen2_6.0.1    
-##  [7] MASS_7.3-50        rlang_0.2.1        dplyr_0.7.4       
-## [10] httr_1.3.1         stringr_1.3.1      tools_3.5.0       
-## [13] xfun_0.1           utf8_1.1.3         cli_1.0.0         
-## [16] htmltools_0.3.6    commonmark_1.5     yaml_2.1.19       
-## [19] rprojroot_1.3-2    digest_0.6.15      assertthat_0.2.0  
-## [22] tibble_1.4.2       bookdown_0.7       pkgdown_1.1.0.9000
-## [25] crayon_1.3.4       bindrcpp_0.2.2     fs_1.2.3          
-## [28] curl_3.2           glue_1.2.0.9000    memoise_1.1.0     
-## [31] evaluate_0.10.1    rmarkdown_1.10     stringi_1.2.2     
-## [34] pillar_1.2.2       compiler_3.5.0     desc_1.2.0        
-## [37] backports_1.1.2    lubridate_1.7.4    jsonlite_1.5      
-## [40] pkgconfig_2.0.1</code></pre>
+##  [1] Rcpp_0.12.19       compiler_3.5.1     pillar_1.3.0      
+##  [4] bindr_0.1.1        tools_3.5.1        digest_0.6.18     
+##  [7] jsonlite_1.5       lubridate_1.7.4    evaluate_0.12     
+## [10] memoise_1.1.0      tibble_1.4.2       pkgconfig_2.0.2   
+## [13] rlang_0.3.0.1      cli_1.0.1          commonmark_1.5    
+## [16] curl_3.2           yaml_2.2.0         pkgdown_1.1.0.9000
+## [19] xfun_0.3           bindrcpp_0.2.2     stringr_1.3.1     
+## [22] httr_1.3.1         dplyr_0.7.7        roxygen2_6.1.0    
+## [25] xml2_1.2.0         knitr_1.20         desc_1.2.0        
+## [28] fs_1.2.6           rprojroot_1.3-2    tidyselect_0.2.5  
+## [31] glue_1.3.0         fansi_0.4.0        rmarkdown_1.10    
+## [34] bookdown_0.7       purrr_0.2.5        magrittr_1.5      
+## [37] backports_1.1.2    htmltools_0.3.6    MASS_7.3-50       
+## [40] assertthat_0.2.0   utf8_1.1.4         stringi_1.2.4     
+## [43] crayon_1.3.4</code></pre>
 </div>
   </div>
 
