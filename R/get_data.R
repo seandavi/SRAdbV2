@@ -42,7 +42,7 @@ accession2url <- function(run_accessions) {
 ftp_dir_listing <- function(url) {
   do.call(rbind, lapply(url, function(u) {
     tmp = read.table(curl(u), header=FALSE)
-    tmp$url = paste0(url,tmp[,ncol(tmp)])
+    tmp$url = paste0(u,tmp[,ncol(tmp)])
     tmp
   }))
 }
